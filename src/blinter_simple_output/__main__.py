@@ -63,7 +63,7 @@ def _parse_commandline_arguments():
 def main() -> None:
     """Main entrypoint function of blinter-simple-output."""
     args = _parse_commandline_arguments()
-    formatter = blinter_simple_output.formatter.ErrorformatFormatter()
+    formatter = blinter_simple_output.formatter.create_formatter(args.style)
     for path in _expand_dir_to_batchfiles_in_it(args.paths):
         path_string = os.fspath(path)
         issues = blinter.lint_batch_file(path_string)

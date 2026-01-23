@@ -30,10 +30,35 @@ class ErrorformatFormatter:
     def _get_error_type_string(self, issue:blinter.LintIssue) ->str:
         return self._SEVERITY_ERRORTYPE_DICT[issue.rule.severity]
 
+class GitHubAnnotationFormatter:
+    _SEVERITY_ERRORTYPE_DICT: ClassVar[dict[blinter.RuleSeverity, str]] = {
+        blinter.RuleSeverity.ERROR:       "error",
+        blinter.RuleSeverity.WARNING:     "warning",
+        blinter.RuleSeverity.STYLE:       "notice",
+        blinter.RuleSeverity.SECURITY:    "error",
+        blinter.RuleSeverity.PERFORMANCE: "notice",
+    }
+
+    def format_lintissue_to_string(self, issue:blinter.LintIssue) ->str:
+        return (
+            f"::{self._get_error_type_string(issue)} "
+            f"file={issue.file_path},"
+            f"line={issue.line_number},"
+            f"title={issue.rule.name}"
+            f"::{issue.rule.explanation}"
+        )
+
+    def _get_error_type_string(self, issue:blinter.LintIssue) ->str:
+        return self._SEVERITY_ERRORTYPE_DICT[issue.rule.severity]
+
 _FORMATTERS = {
     "errorformat": ErrorformatFormatter,
-    "github-annotation": ErrorformatFormatter,
+    "github-annotation": GitHubAnnotationFormatter,
 }
 
 def formatter_names() -> list[str]:
     return _FORMATTERS.keys()
+
+def create_formatter(format_style: str):
+    return _FORMATTERS[format_style]()
+

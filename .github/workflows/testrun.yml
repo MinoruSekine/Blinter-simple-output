@@ -7,7 +7,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  errorformat:
+  typical_usage:
     runs-on: ubuntu-latest
 
     steps:
@@ -20,3 +20,6 @@ jobs:
 
       - name: Run with specifying each file paths.
         run: uv run blinter-simple-output samples/batchfiles/good/good.cmd samples/batchfiles/bad/bad.bat
+
+      - name: GitHub Annotation with specifying dir (recursively search).
+        run: uv run blinter-simple-output --style github-annotation samples/
