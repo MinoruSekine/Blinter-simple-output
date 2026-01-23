@@ -10,6 +10,11 @@
 import blinter
 
 
+_FORMATTERS = {
+    "errorformat": ErrorformatFormatter,
+    "github-annotation": GitHubAnnotationFormatter,
+}
+
 class ErrorformatFormatter:
     def format_lintissue_to_string(self, issue:blinter.LintIssue) ->str:
         return (
