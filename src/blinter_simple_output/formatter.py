@@ -7,10 +7,20 @@
 # by the Free Software Foundation, either version 3 of the License, or
 # (at your option) any later version.
 
+from typing import ClassVar
+
 import blinter
 
 
 class ErrorformatFormatter:
+    _SEVERITY_ERRORTYPE_DICT: ClassVar[dict[blinter.RuleSeverity, str]] = {
+        blinter.RuleSeverity.ERROR:       "e",
+        blinter.RuleSeverity.WARNING:     "w",
+        blinter.RuleSeverity.STYLE:       "n",
+        blinter.RuleSeverity.SECURITY:    "e",
+        blinter.RuleSeverity.PERFORMANCE: "i",
+    }
+
     def format_lintissue_to_string(self, issue:blinter.LintIssue) ->str:
         return (
             f"{issue.file_path}:{issue.line_number} "
@@ -18,14 +28,7 @@ class ErrorformatFormatter:
         )
 
     def _get_error_type_string(self, issue:blinter.LintIssue) ->str:
-        SEVERITY_ERRORTYPE_DICT: dict[blinter.RuleSeverity,str] = {
-            blinter.RuleSeverity.ERROR:       "e",
-            blinter.RuleSeverity.WARNING:     "w",
-            blinter.RuleSeverity.STYLE:       "n",
-            blinter.RuleSeverity.SECURITY:    "e",
-            blinter.RuleSeverity.PERFORMANCE: "i",
-        }
-        return SEVERITY_ERRORTYPE_DICT[issue.rule.severity]
+        return self._SEVERITY_ERRORTYPE_DICT[issue.rule.severity]
 
 _FORMATTERS = {
     "errorformat": ErrorformatFormatter,
