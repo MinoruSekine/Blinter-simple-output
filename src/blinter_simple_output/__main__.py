@@ -43,7 +43,7 @@ def _parse_commandline_arguments():
 
     argparser.add_argument(
         '-s', '--style',
-        choices=['errorformat', 'github-annotation'],
+        choices=blinter_simple_output.formatter.formatter_names(),
         default='errorformat',
         help="Output style"
     )
