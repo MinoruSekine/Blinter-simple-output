@@ -15,5 +15,8 @@ jobs:
 
       - uses: astral-sh/setup-uv@v7.2.0
 
-      - run: uv sync
-      - run: uv run blinter-simple-output samples/batchfiles/good/good.cmd samples/batchfiles/bad/bad.bat
+      - name: Set up blinter-simple-output.
+        run: uv sync
+
+      - name: Run with specifying each file paths.
+        run: uv run blinter-simple-output samples/batchfiles/good/good.cmd samples/batchfiles/bad/bad.bat
