@@ -7,7 +7,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  errorformat:
+  typical_usage:
     runs-on: ubuntu-latest
 
     steps:
@@ -15,5 +15,11 @@ jobs:
 
       - uses: astral-sh/setup-uv@v7.2.0
 
-      - run: uv sync
-      - run: uv run blinter-simple-output samples/batchfiles/good/good.cmd samples/batchfiles/bad/bad.bat
+      - name: Set up blinter-simple-output.
+        run: uv sync
+
+      - name: Run with specifying each file paths.
+        run: uv run blinter-simple-output samples/batchfiles/good/good.cmd samples/batchfiles/bad/bad.bat
+
+      - name: GitHub Annotation with specifying dir (recursively search).
+        run: uv run blinter-simple-output --style github-annotation samples/
