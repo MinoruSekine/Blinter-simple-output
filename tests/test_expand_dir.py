@@ -13,5 +13,5 @@ from blinter_simple_output.__main__ import _expand_dir_to_batchfiles_in_it
 
 
 def test_expand_dir():
-    assert all(p.is_file()
-               for p in _expand_dir_to_batchfiles_in_it([TEST_BATCH_FILES_DIR]))
+    expanded_paths = _expand_dir_to_batchfiles_in_it([TEST_BATCH_FILES_DIR])
+    assert all(path.is_file() for path in expanded_paths)
