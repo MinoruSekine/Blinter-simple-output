@@ -9,9 +9,18 @@
 
 from conftest import TEST_BATCH_FILES_DIR
 
-from blinter_simple_output.__main__ import _expand_dir_to_batchfiles_in_it
+from blinter_simple_output.__main__ import _expand_dir_to_batchfiles_in_it, _is_dot_path
 
 
 def test_expand_dir():
-    assert all(p.is_file()
-               for p in _expand_dir_to_batchfiles_in_it([TEST_BATCH_FILES_DIR]))
+    expanded_paths = _expand_dir_to_batchfiles_in_it(
+        [TEST_BATCH_FILES_DIR],
+        include_dot_dirs = False
+    )
+    assert all(path.is_file() for path in expanded_paths)
+    assert not any(_is_dot_path(path) for path in expanded_paths)
+    expanded_paths_including_dot_dir = _expand_dir_to_batchfiles_in_it(
+        [TEST_BATCH_FILES_DIR],
+        include_dot_dirs = True
+    )
+    assert len(expanded_paths) != len(expanded_paths_including_dot_dir)
